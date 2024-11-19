@@ -284,6 +284,9 @@ pub struct ChainConfig {
     /// The network's chain ID.
     pub chain_id: u64,
 
+    /// The network's chain ID after the Maribor fork.
+    pub maribor_chain_id: u64,
+
     /// The homestead switch block (None = no fork, 0 = already homestead).
     #[serde(
         skip_serializing_if = "Option::is_none",
@@ -420,6 +423,13 @@ pub struct ChainConfig {
     )]
     pub osaka_time: Option<u64>,
 
+    /// Maribor switch time (None = no fork, 0 = already on maribor).
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "alloy_serde::quantity::opt::deserialize"
+    )]
+    pub maribor_time: Option<u64>,
+
     /// Total difficulty reached that triggers the merge consensus upgrade.
     #[serde(
         skip_serializing_if = "Option::is_none",
@@ -548,6 +558,7 @@ impl Default for ChainConfig {
         Self {
             // mainnet
             chain_id: 1,
+            maribor_chain_id: 806586,
             homestead_block: None,
             dao_fork_block: None,
             dao_fork_support: false,
@@ -568,6 +579,7 @@ impl Default for ChainConfig {
             cancun_time: None,
             prague_time: None,
             osaka_time: None,
+            maribor_time: None,
             terminal_total_difficulty: None,
             terminal_total_difficulty_passed: false,
             ethash: None,
